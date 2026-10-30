@@ -2,7 +2,7 @@
 
 Swap Turkish personal data for placeholders before the text leaves your machine, and swap it back when the answer returns.
 
-Generic PII tools don't know that a T.C. number has two check digits or that `IŞIL` lowercases to `ışıl`. This one validates Turkish identifiers by their checksums, so a random 11-digit number stays in the text and a real-shaped one does not, and it keeps a local reversible mapping so the LLM never needs the raw values.
+Generic PII tools don't know that a T.C. number has two check digits or that `IŞIL` lowercases to `ışıl`. This one validates Turkish identifiers by their checksums, so most random 11-digit numbers stay in the text while checksum-valid ones are masked, and it keeps a local reversible mapping so the LLM never needs the raw values.
 
 **This is not a compliance guarantee or legal advice.** It is a best-effort filter with measured misses (below). Masked text can still identify someone through context. Using it does not by itself satisfy KVKK, GDPR or any other regulation.
 
@@ -102,7 +102,7 @@ Recall by slot:
 
 Read these numbers for what they are:
 
-- **I wrote the templates, the generator and the detector.** The set is fully synthetic, and I fixed three bugs it exposed before taking this run. It says the code does what I designed it to do. It does not estimate performance on real text, where precision and recall will both be lower. The precision of 1.000 on names mainly reflects which hard negatives I thought of; see the false positives under Limits.
+- **I wrote the templates, the generator and the detector.** The set is fully synthetic, and I fixed four bugs it exposed before taking this run. It says the code does what I designed it to do. It does not estimate performance on real text, where precision and recall will both be lower. The precision of 1.000 on names mainly reflects which hard negatives I thought of; see the false positives under Limits.
 - Some gold labels are there to be missed: mistyped IDs (`TCKN_TYPO`), unlabelled tax numbers, names outside the dictionaries, and names that are also ordinary words.
 - The set is 64 templates, so 1280 sentences are far from 1280 independent tests.
 
