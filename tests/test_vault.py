@@ -26,13 +26,13 @@ def test_round_trip_and_nothing_left_in_clear():
 
 def test_placeholders_stable_across_calls_and_spellings():
     vault = Vault()
-    first = vault.shield("Ara: 0532 123 45 67")
-    second = vault.shield("Numara +90 532 123 45 67 ve 0212 123 45 67")
+    first = vault.shield("Ara: 0555 000 00 01")
+    second = vault.shield("Numara +90 555 000 00 01 ve 0212 000 00 01")
     assert first == "Ara: [TEL_1]"
     assert second == "Numara [TEL_1] ve [TEL_2]"
-    assert canonical_phone("+90 532 123 45 67") == canonical_phone("0532 123 45 67")
+    assert canonical_phone("+90 555 000 00 01") == canonical_phone("0555 000 00 01")
     # First spelling seen is the one restored.
-    assert vault.restore("[TEL_1]") == "0532 123 45 67"
+    assert vault.restore("[TEL_1]") == "0555 000 00 01"
 
 
 def test_name_identity_is_case_insensitive_turkish():
@@ -58,7 +58,7 @@ def test_unknown_placeholders_reported_and_left_alone():
 
 def test_literal_placeholder_in_input_does_not_collide():
     vault = Vault()
-    text = "Şablonda [TEL_1] yazıyor, gerçek numara 0532 123 45 67"
+    text = "Şablonda [TEL_1] yazıyor, gerçek numara 0555 000 00 01"
     masked = vault.shield(text)
     assert masked == "Şablonda [TEL_1] yazıyor, gerçek numara [TEL_2]"
     assert vault.restore(masked) == text
@@ -67,12 +67,12 @@ def test_literal_placeholder_in_input_does_not_collide():
 def test_vault_persistence_is_private_and_lossless(tmp_path):
     path = tmp_path / "vault.json"
     vault = Vault()
-    masked = vault.shield("Sayın Elif Kaya, 0532 123 45 67")
+    masked = vault.shield("Sayın Elif Kaya, 0555 000 00 01")
     vault.save(path)
     assert stat.S_IMODE(os.stat(path).st_mode) == 0o600
     loaded = Vault.load(path)
-    assert loaded.restore(masked) == "Sayın Elif Kaya, 0532 123 45 67"
-    assert loaded.shield("0532 123 45 67 ve 0212 123 45 67") == "[TEL_1] ve [TEL_2]"
+    assert loaded.restore(masked) == "Sayın Elif Kaya, 0555 000 00 01"
+    assert loaded.shield("0555 000 00 01 ve 0212 000 00 01") == "[TEL_1] ve [TEL_2]"
 
 
 def test_round_trip_on_the_whole_synthetic_set():
@@ -84,7 +84,7 @@ def test_round_trip_on_the_whole_synthetic_set():
 
 def test_cli_shield_restore_detect(tmp_path, capsys):
     source = tmp_path / "in.txt"
-    source.write_text("Sayın Elif Kaya, 0532 123 45 67", encoding="utf-8")
+    source.write_text("Sayın Elif Kaya, 0555 000 00 01", encoding="utf-8")
     vault_path = tmp_path / "v.json"
 
     assert main(["shield", str(source), "--vault", str(vault_path)]) == 0

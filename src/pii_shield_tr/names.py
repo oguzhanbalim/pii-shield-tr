@@ -130,7 +130,7 @@ def _dictionary_spans(text: str) -> Iterator[tuple[int, int]]:
                 # A double given name: "Ayşe Nur Yılmaz".
                 second = _adjacent(text, tokens, last)
                 if second is not None and tr_lower(second.group()) in _NOT_A_NAME_AFTER:
-                    # "Mustafa Kemal Bulvarı": the whole run names a place.
+                    # "Mehmet Ali Bulvarı": the whole run names a place.
                     i = last + 2
                     continue
                 if second is not None and (

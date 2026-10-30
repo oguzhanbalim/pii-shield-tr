@@ -15,7 +15,7 @@ pip install -e .
 pii-shield shield examples/sample.txt --vault /tmp/vault.json
 ```
 
-Every identifier in `examples/` is generated (see [Evaluation](#evaluation)). Output:
+Every value in `examples/` is synthetic: the T.C. number, IBAN and tax number come from the seeded generator (see [Evaluation](#evaluation)), and the phone number and plate are placeholders. Output:
 
 ```
 Adı Soyadı: [AD_1]
@@ -31,7 +31,7 @@ $ cat examples/reply.txt
 Sayın [AD_1], iadeniz [IBAN_1] hesabına yapılacak. Sorun olursa [TEL_1] numarasını arayacağız.
 
 $ pii-shield restore examples/reply.txt --vault /tmp/vault.json
-Sayın Elif Kaya, iadeniz TR64 9999 9029 4196 0837 8653 88 hesabına yapılacak. Sorun olursa 0532 123 45 67 numarasını arayacağız.
+Sayın Elif Kaya, iadeniz TR64 9999 9029 4196 0837 8653 88 hesabına yapılacak. Sorun olursa 0555 000 00 01 numarasını arayacağız.
 ```
 
 As a library:
@@ -61,7 +61,7 @@ vault.save("vault.json")                 # file mode 0600: it holds the real dat
 
 The VKN check digit passes one random 10-digit number in ten, so the keyword is required. Without it, 10% of order numbers would be masked.
 
-The same value gets one placeholder however it is spelled: `0532 123 45 67` and `+90 532 123 45 67` are both `[TEL_1]`, and `IŞIL YILMAZ` and `Işıl Yılmaz` are one name.
+The same value gets one placeholder however it is spelled: `0555 000 00 01` and `+90 555 000 00 01` are both `[TEL_1]`, and `IŞIL YILMAZ` and `Işıl Yılmaz` are one name.
 
 ## Evaluation
 

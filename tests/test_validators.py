@@ -73,11 +73,11 @@ def test_vkn_rejects_changed_check_digit():
 
 @pytest.mark.parametrize(
     "spelling",
-    ["05321234567", "0532 123 45 67", "+90 532 123 45 67", "+905321234567", "0 (532) 123-45-67",
-     "0090 532 123 45 67", "532 123 45 67"],
+    ["05550000001", "0555 000 00 01", "+90 555 000 00 01", "+905550000001", "0 (555) 000-00-01",
+     "0090 555 000 00 01", "555 000 00 01"],
 )
 def test_phone_spellings_share_a_canonical_form(spelling):
-    assert canonical_phone(spelling) == "5321234567"
+    assert canonical_phone(spelling) == "5550000001"
 
 
 @pytest.mark.parametrize("plate", ["34 ABC 123", "06 A 1234", "35AB123", "81 XY 1234", "01 ABC 12"])

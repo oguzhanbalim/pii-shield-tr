@@ -35,7 +35,7 @@ def test_vkn_requires_context():
 
 
 def test_vkn_beats_phone_when_labelled():
-    v = "532123456" + vkn_check_digit("532123456")
+    v = "555000000" + vkn_check_digit("555000000")
     assert kinds(f"VKN: {v}") == [(Kind.VKN, v)]
 
 
@@ -54,7 +54,7 @@ def test_iban_digits_are_not_also_reported_as_phone_or_tckn():
 
 @pytest.mark.parametrize(
     "text",
-    ["Bana 0532 123 45 67 numarasından", "+90 216 123 45 67 ofis", "(312) 444 55 66 santral"],
+    ["Bana 0555 000 00 01 numarasından", "+90 216 000 00 01 ofis", "(312) 000 00 01 santral"],
 )
 def test_phones(text):
     assert [s.kind for s in detect(text)] == [Kind.PHONE]
@@ -100,9 +100,9 @@ def test_names(text, name):
 @pytest.mark.parametrize(
     "text",
     [
-        "Mustafa Kemal Bulvarı kapalı.",
-        "Atatürk Caddesi kapalı.",
-        "Hacettepe Üniversitesi bildiri yayımladı.",
+        "Mehmet Ali Bulvarı kapalı.",
+        "Çınar Caddesi kapalı.",
+        "Örnek Üniversitesi bildiri yayımladı.",
         "Deniz kenarında yürüdük.",
         "Güneş erken battı.",
         "Kaya Sokak üzerinde çalışma var.",
@@ -115,7 +115,7 @@ def test_not_names(text):
 
 def test_spans_are_ordered_and_disjoint():
     rng = random.Random(15)
-    text = f"Alıcı: Elif Kaya, {gen_tckn(rng)}, {gen_iban(rng, spaced=True)}, 0532 123 45 67"
+    text = f"Alıcı: Elif Kaya, {gen_tckn(rng)}, {gen_iban(rng, spaced=True)}, 0555 000 00 01"
     spans = detect(text)
     assert [s.kind for s in spans] == [Kind.NAME, Kind.TCKN, Kind.IBAN, Kind.PHONE]
     assert all(a.end <= b.start for a, b in zip(spans, spans[1:], strict=False))
